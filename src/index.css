@@ -1,3 +1,9 @@
+@import-normalize;
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -5,9 +11,16 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background:  rgb(112, 144, 175) url("assets/images/cloud.jpg") no-repeat 50% 50%  fixed;
+  background-size: cover;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+/*global css variables*/
+:root {
+  --main-text-color: #ece89f;
+  --main-bg-color: #ecf1f6;
+  --main-hover-color: #f1f1e7;
+  --header-bgcolor: #48484a;
+  --header-active-btn-bgcolor: #6a6a6f;
+  --details-bgcolor: #eeecec;
 }
