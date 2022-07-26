@@ -22,5 +22,7 @@ body {
   --main-hover-color: #f1f1e7;
   --header-bgcolor: #48484a;
   --header-active-btn-bgcolor: #6a6a6f;
-  --details-bgcolor: #eeecec;
+  --details-bgcolor: #9a9898;
+  --chart-text-color: #9a9898;
+  --card-btn-color: #6a6a6f;
 }

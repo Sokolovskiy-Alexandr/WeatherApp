@@ -1,6 +1,6 @@
 import { IHour } from "./IHour";
 
 export interface IForecast {
-    timezone: string;
-    hourly: IHour[]
+  timezone: string;
+  hourly: IHour[];
 }

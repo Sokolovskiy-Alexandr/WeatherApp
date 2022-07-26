@@ -1,12 +1,14 @@
-import { useAppDispatch } from "./redux";
 import { bindActionCreators } from "@reduxjs/toolkit";
+import { useAppDispatch } from "./redux";
 import { weatherActions } from "../redux/weatherSlice";
 
 const allActions = {
-    ...weatherActions
-}
+  ...weatherActions,
+};
 
-export const useActions = () => {
-    const dispatch = useAppDispatch();
-    return bindActionCreators(allActions, dispatch);
-}
+const useActions = () => {
+  const dispatch = useAppDispatch();
+  return bindActionCreators(allActions, dispatch);
+};
+
+export default useActions;
