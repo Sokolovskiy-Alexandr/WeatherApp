@@ -13,7 +13,7 @@ import { fetchWeather } from "../redux/weatherSlice";
 
 const OptionCssBtn = {
   fontSize: 10,
-  width: 88,
+  width: 95,
   height: 30,
   borderColor: "var(--main-text-color)",
   color: "var(--main-text-color)",

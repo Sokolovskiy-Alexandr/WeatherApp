@@ -59,7 +59,7 @@ export const formatForecastData = (data: any) => {
   let { timezone, hourly } = data.data;
   hourly = hourly
     .filter((_: any, i: number) => i % 2 === 0)
-    .splice(1, 8)
+    .splice(1, 6)
     .map((h: any) => ({
       temp: Math.round(h.temp),
       title: formatToLocalTime(h.dt, h.timezone),

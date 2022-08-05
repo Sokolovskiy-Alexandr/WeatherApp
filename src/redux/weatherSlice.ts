@@ -73,6 +73,12 @@ const weatherSlice = createSlice({
     isOpenDetails: (state, action) => {
       state.isOpenDetails = action.payload;
     },
+    setFalse: (state) => {
+      const res = state.weatherData.find((w) => w.refresh);
+      if (res) {
+        res.refresh = false;
+      }
+    },
   },
   extraReducers: (builder) => {
     builder

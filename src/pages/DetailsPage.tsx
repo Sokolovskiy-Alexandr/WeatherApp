@@ -5,11 +5,20 @@ import Box from "@mui/material/Box";
 import { useNavigate, useParams } from "react-router-dom";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import RefreshIcon from "@mui/icons-material/Refresh";
+import Grid from "@mui/material/Grid/Grid";
+import GrainRoundedIcon from "@mui/icons-material/GrainRounded";
+import DeviceThermostatOutlinedIcon from "@mui/icons-material/DeviceThermostatOutlined";
+import WavesRoundedIcon from "@mui/icons-material/WavesRounded";
+import AirRoundedIcon from "@mui/icons-material/AirRounded";
+import WbSunnyOutlinedIcon from "@mui/icons-material/WbSunnyOutlined";
+import WbTwilightOutlinedIcon from "@mui/icons-material/WbTwilightOutlined";
+import FlutterDashIcon from "@mui/icons-material/FlutterDash";
 import useActions from "../hooks/useActions";
 import { useAppDispatch, useAppSelector } from "../hooks/redux";
-import DetailsItem from "../components/DetailsItem";
 import ChartApp from "../components/ChartApp";
-import { fetchForecast } from "../redux/weatherSlice";
+import { fetchForecast, fetchWeather } from "../redux/weatherSlice";
+import DetailsItem from "../components/DetailsItem";
+import Preloader from "../components/Preloader";
 
 const DetailsPage: React.FC = () => {
   const { cityName } = useParams();
@@ -19,12 +28,22 @@ const DetailsPage: React.FC = () => {
   const data = useAppSelector((state) => state.main.weatherData.find((w) => w.name === cityName));
   const units = useAppSelector((state) => state.main.units);
   const hourly = useAppSelector((state) => state.main?.forecast?.hourly);
+  const isLoading = useAppSelector((state) => state.main.isLoading);
 
   const speed = units === "metric" ? "m/s" : "mph";
   const deg = units === "metric" ? "°C" : "°F";
   const press = units === "metric" ? "mmHg" : "hPa";
 
   const goBack = () => navigate(-1);
+
+  const refreshDetailsWeather = () => {
+    if (cityName) {
+      dispatch(fetchWeather(cityName));
+      if (data) {
+        dispatch(fetchForecast({ lat: data.lat, lon: data.lon }));
+      }
+    }
+  };
 
   React.useEffect(() => {
     if (data) {
@@ -36,11 +55,32 @@ const DetailsPage: React.FC = () => {
     };
   }, [units]);
 
+  const items = [
+    { title: "Min temp:", value: `${data?.tempMin}${deg}`, icon: <DeviceThermostatOutlinedIcon /> },
+    { title: "Max temp:", value: `${data?.tempMax}${deg}`, icon: <DeviceThermostatOutlinedIcon /> },
+    { title: "Humidity", value: `${data?.humidity}%`, icon: <GrainRoundedIcon /> },
+    {
+      title: "Feels like:",
+      value: `${data?.feelsLike}${deg}`,
+      icon: <FlutterDashIcon />,
+    },
+    { title: "Sunset", value: `${data?.sunset}`, icon: <WbTwilightOutlinedIcon /> },
+    { title: "Wind", value: `${data?.windSpeed}${speed}`, icon: <AirRoundedIcon /> },
+    { title: "Sunrise", value: `${data?.sunrise}`, icon: <WbSunnyOutlinedIcon /> },
+    {
+      title: "Pressure:",
+      value: `${
+        units === "metric" ? Math.round((data?.pressure ?? 1) * 0.75) : data?.pressure
+      }${press}`,
+      icon: <WavesRoundedIcon />,
+    },
+  ];
+
   return (
     <Container maxWidth="lg">
-      <Paper sx={{ bgcolor: "var(--details-bgcolor)" }}>
-        <Box display="flex" justifyContent="space-between" alignItems="center">
-          <IconButton sx={{ marginLeft: 1, marginTop: 1 }} onClick={goBack}>
+      <Paper sx={{ bgcolor: "var(--details-bgcolor)", borderRadius: "10px" }}>
+        <Box display="flex" justifyContent="space-between" alignItems="center" borderRadius="10px">
+          <IconButton onClick={goBack}>
             <ArrowBackIcon sx={{ fontSize: "2rem" }} />
           </IconButton>
           <Typography
@@ -53,64 +93,69 @@ const DetailsPage: React.FC = () => {
             Details weather information
           </Typography>
 
-          <IconButton sx={{ marginTop: 1, marginRight: 1 }}>
-            <RefreshIcon sx={{ fontSize: "2rem" }} />
+          <IconButton>
+            <RefreshIcon sx={{ fontSize: "2rem" }} onClick={refreshDetailsWeather} />
           </IconButton>
         </Box>
-        <Box>
-          <Box sx={{ display: "flex", justifyContent: "space-around", margin: 2 }}>
-            <Box
-              sx={{
-                display: "inline-flex",
-                flexDirection: "column",
-                justifyContent: "center",
-                alignItems: "center",
-                maxWidth: 300,
-              }}
-            >
-              <DetailsItem discr="Current temp:" value={`${data?.temp}${deg}`} />
-              <DetailsItem discr="Min temp:" value={`${data?.tempMin}${deg}`} />
-              <DetailsItem discr="Max temp:" value={`${data?.tempMax}${deg}`} />
-              <DetailsItem discr="Feels like:" value={`${data?.feelsLike}${deg}`} />
-              <DetailsItem
-                discr="Pressure:"
-                value={`${
-                  units === "metric" ? Math.round((data?.pressure ?? 1) * 0.75) : data?.pressure
-                }${press}`}
-              />
-              <DetailsItem discr="Humidity:" value={`${data?.humidity}%`} />
-              <DetailsItem discr="Wind:" value={`${data?.windSpeed}${speed}`} />
-              <DetailsItem discr="Sunrise:" value={`${data?.sunrise}`} />
-              <DetailsItem discr="Sunset:" value={`${data?.sunset}`} />
-            </Box>
 
-            <Box
-              sx={{
-                display: "inline-flex",
-                flexDirection: "column",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
+        <Box>
+          <Box display="flex" justifyContent="space-around" flexWrap="wrap-reverse" margin={2}>
+            <Grid container item lg={6} justifyContent="space-around">
+              {items.map((i) => (
+                <DetailsItem key={i.title} title={i.title} value={i.value} icon={i.icon} />
+              ))}
+            </Grid>
+
+            <Grid
+              item
+              lg={2}
+              marginBottom={2}
+              padding={1}
+              minWidth={250}
+              borderRadius={10}
+              boxShadow="0px 5px 10px 2px #ece89f"
+              display="inline-flex"
+              flexDirection="column"
+              justifyContent="center"
+              alignItems="center"
             >
               <Typography
                 component="h3"
                 variant="button"
                 align="center"
-                sx={{ fontSize: "1.5rem" }}
-                letterSpacing={5}
+                fontSize="1.5rem"
+                letterSpacing={1}
               >
-                {data?.name},{data?.country}
+                {data?.name}
               </Typography>
-              <Typography align="center">
-                <Box component="img" alt="Weather icon" src={data?.icon} />
+              <Typography
+                component="h3"
+                variant="button"
+                align="center"
+                fontSize="1.5rem"
+                letterSpacing={1}
+              >
+                {data?.country}
               </Typography>
-              <Typography component="h3" variant="button" align="center">
+
+              <Typography component="h3" variant="overline">
                 {data?.detailsWeather}
               </Typography>
-            </Box>
+              {isLoading ? (
+                <Box component="div" width={150} height={150}>
+                  <Preloader />
+                </Box>
+              ) : (
+                <Box component="img" alt="Weather icon" src={data?.icon} width={150} height={150} />
+              )}
+
+              <Typography component="h3" variant="overline" fontSize="2rem">
+                {`${data?.temp}${deg}`}
+              </Typography>
+            </Grid>
           </Box>
 
-          <Box sx={{ padding: 1, height: "200px", width: "100%" }}>
+          <Box padding={1} height="220px" width="100%" marginBottom={2}>
             <ChartApp hourly={hourly} />
           </Box>
         </Box>

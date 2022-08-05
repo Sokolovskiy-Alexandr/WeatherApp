@@ -19,7 +19,7 @@ export const SearchBtn = {
 };
 
 export const SearchField = styled(TextField)({
-  "& label": { color: "var(--main-text-color)", bgcolor: "red" },
+  "& label": { color: "var(--main-text-color)" },
   "& label.Mui-focused": {
     color: "var(--main-hover-color)",
   },

@@ -7,14 +7,6 @@ const openWeather: AxiosInstance = axios.create({
   },
 });
 
-/* const geoDB: AxiosInstance = axios.create({
-    baseURL: 'https://wft-geo-db.p.rapidapi.com/v1/geo/',
-    headers: {
-        'X-RapidAPI-Key': 'b1eaaa28c6mshfa71e4a8dbb3bf3p12ec11jsn11ad23784848',
-        'X-RapidAPI-Host': 'wft-geo-db.p.rapidapi.com'
-    }
-}); */
-
 const forecastOptions = {
   params: {
     exclude: "current,minutely,daily,alerts",
@@ -22,10 +14,6 @@ const forecastOptions = {
 };
 
 const api = {
-  /* getCoord: async (searchCity: string) => {
-        const coord = await geoDB.get(`cities?namePrefix=${searchCity}`);
-        console.log(coord)
-    }, */
   getWeather: async (cityName: string, units: string) =>
     openWeather.get(`weather?q=${cityName}&units=${units}`),
   getForecast: async (lat: number, lon: number, units: string) =>

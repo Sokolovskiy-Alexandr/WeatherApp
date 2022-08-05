@@ -1,16 +1,16 @@
-/* eslint-disable */
 import React from "react";
 import Box from "@mui/material/Box/Box";
 import Typography from "@mui/material/Typography/Typography";
 import Card from "@mui/material/Card/Card";
 import { CardActionArea, CardHeader, CardMedia, IconButton, Tooltip } from "@mui/material";
 import Grid from "@mui/material/Grid/Grid";
-import { Link, useNavigate } from "react-router-dom";
-import { useAppSelector } from "../hooks/redux";
-import Preloader from "./Preloader";
+import { Link } from "react-router-dom";
 import CloseIcon from "@mui/icons-material/Close";
 import RefreshIcon from "@mui/icons-material/Refresh";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
+import Preloader from "./Preloader";
+import { useAppSelector } from "../hooks/redux";
+import useActions from "../hooks/useActions";
 
 type WeatherCardPropsType = {
   id: number;
@@ -38,25 +38,31 @@ const WeatherCard: React.FC<WeatherCardPropsType> = (props) => {
     feelsLike,
     refresh,
   } = props;
-
+  const { setFalse } = useActions();
   const units = useAppSelector((state) => state.main.units);
-  const isLoading = useAppSelector((state) => state.main.isLoading);
   const deg = units === "metric" ? "°C" : "°F";
 
   const [update, setUpdate] = React.useState(false);
 
+  React.useEffect(() => {
+    if (refresh) {
+      setUpdate(false);
+      setFalse();
+    }
+  }, [refresh]);
   return (
-    <Grid item container md={4} marginTop={2} justifyContent="center">
+    <Grid item container lg={4} marginTop={2} justifyContent="center">
       <Card
         sx={{
           width: 270,
-          height: 300,
-          backgroundColor: "#242324",
+          minHeight: 330,
+          maxHeight: 400,
+          backgroundColor: "var(--card-bg-color)",
           color: "var(--main-text-color)",
         }}
       >
         <CardActionArea
-          disabled={isLoading}
+          disabled={update}
           component={Link}
           to={`details/${name}`}
           sx={{ height: "100%" }}
@@ -72,20 +78,12 @@ const WeatherCard: React.FC<WeatherCardPropsType> = (props) => {
                       e.preventDefault();
                       e.stopPropagation();
                       updateWeather(name);
+                      setUpdate(true);
                     }}
                   >
                     <RefreshIcon sx={{ color: "var(--card-btn-color)" }} />
                   </IconButton>
                 </Tooltip>
-
-                <Typography
-                  variant="button"
-                  sx={{
-                    color: "var(--main-text-color)",
-                  }}
-                >
-                  {name}, {country}
-                </Typography>
 
                 <Tooltip title="Close Card">
                   <IconButton
@@ -105,20 +103,35 @@ const WeatherCard: React.FC<WeatherCardPropsType> = (props) => {
                 title={
                   <Box
                     display="flex"
+                    flexDirection="column"
                     justifyContent="center"
                     alignItems="center"
                     marginBottom={0.5}
                   >
-                    <LocationOnIcon fontSize="small" />
+                    <Box display="flex" alignItems="center">
+                      <LocationOnIcon fontSize="small" />
+                      <Typography
+                        marginLeft={1}
+                        variant="button"
+                        sx={{
+                          color: "var(--main-text-color)",
+                          fontSize: "1.2rem",
+                          letterSpacing: 1,
+                        }}
+                      >
+                        {name}
+                      </Typography>
+                    </Box>
+
                     <Typography
                       variant="button"
                       sx={{
                         color: "var(--main-text-color)",
                         fontSize: "1.2rem",
-                        letterSpacing: 3,
+                        letterSpacing: 1,
                       }}
                     >
-                      {name}, {country}
+                      {country}
                     </Typography>
                   </Box>
                 }
@@ -149,10 +162,10 @@ const WeatherCard: React.FC<WeatherCardPropsType> = (props) => {
             </>
           )}
           <Box display="flex" alignItems="center">
-            <Typography flexGrow={1} marginLeft={2} variant="subtitle2" sx={{ fontSize: "2rem" }}>
+            <Typography flexGrow={1} marginLeft={2} variant="subtitle2" sx={{ fontSize: "1.5rem" }}>
               Feels like:
             </Typography>
-            <Typography variant="subtitle2" marginRight={2} sx={{ fontSize: "2.5rem" }}>
+            <Typography variant="subtitle2" marginRight={2} sx={{ fontSize: "2rem" }}>
               {feelsLike}
               {deg}
             </Typography>

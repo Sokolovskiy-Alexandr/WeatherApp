@@ -38,18 +38,27 @@ const ChartApp: React.FC<ChartAppTypeProps> = ({ hourly }) => {
       title: {
         color: "var(--chart-text-color)",
         display: true,
-        text: "Forecast temperature for 8 hours",
+        text: "Forecast temperature for 12 hours",
+        font: {
+          size: 18,
+        },
       },
     },
     scales: {
       x: {
         ticks: {
           color: "var(--chart-text-color)",
+          font: {
+            size: 14,
+          },
         },
       },
       y: {
         ticks: {
           color: "var(--chart-text-color)",
+          font: {
+            size: 14,
+          },
         },
 
         display: true,
@@ -57,6 +66,9 @@ const ChartApp: React.FC<ChartAppTypeProps> = ({ hourly }) => {
           color: "var(--chart-text-color)",
           display: true,
           text: `Temperature,${deg}`,
+          font: {
+            size: 16,
+          },
         },
       },
     },

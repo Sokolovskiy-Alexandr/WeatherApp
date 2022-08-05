@@ -19,7 +19,7 @@ const WeatherCards: React.FC = () => {
   };
 
   return (
-    <Grid container justifyContent="space-evenly">
+    <Grid container justifyContent="space-evenly" maxWidth="lg">
       {weatherData.map((w) => (
         <WeatherCard
           key={w.id}

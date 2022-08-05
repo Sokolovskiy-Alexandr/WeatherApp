@@ -8,7 +8,11 @@ const HomePage: React.FC = () => {
 
   return (
     <Container maxWidth="lg">
-      {weatherData.length === 0 ? <h1>Тестовое задание для Codica company</h1> : <WeatherCards />}
+      {weatherData.length === 0 ? (
+        <h1>Names of cities need to be written in Latin! For example London, Poltava.</h1>
+      ) : (
+        <WeatherCards />
+      )}
     </Container>
   );
 };
