@@ -1,7 +1,5 @@
 import React from "react";
-import Box from "@mui/material/Box/Box";
-import Typography from "@mui/material/Typography";
-import Grid from "@mui/material/Grid/Grid";
+import { Box, Typography, Grid } from "@mui/material";
 
 type DetailsItemTypeProps = {
   title: string;

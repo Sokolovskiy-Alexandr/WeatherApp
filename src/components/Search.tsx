@@ -1,9 +1,6 @@
 import React from "react";
-import Button from "@mui/material/Button";
 import SearchIcon from "@mui/icons-material/Search";
-import { styled } from "@mui/material/styles";
-import { TextField } from "@mui/material";
-import Box from "@mui/material/Box";
+import { TextField, Button, styled, Box } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../hooks/redux";
 import { fetchWeather } from "../redux/weatherSlice";
 import useActions from "../hooks/useActions";

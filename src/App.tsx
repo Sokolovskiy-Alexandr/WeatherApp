@@ -5,7 +5,6 @@ import { fetchWeather } from "./redux/weatherSlice";
 import Layout from "./Layout/Layout";
 import HomePage from "./pages/HomePage";
 import DetailsPage from "./pages/DetailsPage";
-import "./App.css";
 
 const App: React.FC = () => {
   const dispatch = useAppDispatch();

@@ -1,11 +1,8 @@
 import React from "react";
-import { Container, IconButton, Paper } from "@mui/material";
-import Typography from "@mui/material/Typography";
-import Box from "@mui/material/Box";
+import { Container, IconButton, Paper, Typography, Box, Grid } from "@mui/material";
 import { useNavigate, useParams } from "react-router-dom";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import RefreshIcon from "@mui/icons-material/Refresh";
-import Grid from "@mui/material/Grid/Grid";
 import GrainRoundedIcon from "@mui/icons-material/GrainRounded";
 import DeviceThermostatOutlinedIcon from "@mui/icons-material/DeviceThermostatOutlined";
 import WavesRoundedIcon from "@mui/icons-material/WavesRounded";

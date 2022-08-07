@@ -1,5 +1,5 @@
 import React from "react";
-import Grid from "@mui/material/Grid/Grid";
+import { Grid } from "@mui/material";
 import useActions from "../hooks/useActions";
 import { useAppDispatch, useAppSelector } from "../hooks/redux";
 import { fetchWeather } from "../redux/weatherSlice";

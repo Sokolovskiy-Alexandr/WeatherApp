@@ -53,6 +53,9 @@
     "react/require-default-props" : "off",
     "prefer-const": ["warn"],
     "react/function-component-definition": "off",
-    "no-param-reassign": ["error", { "props": false }]
+    "no-param-reassign": ["error", { "props": false }],
+    "prettier/prettier": ["error",{
+      "endOfLine": "auto"}
+    ]
   }
 }

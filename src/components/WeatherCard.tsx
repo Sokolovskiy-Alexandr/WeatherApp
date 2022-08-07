@@ -1,9 +1,15 @@
 import React from "react";
-import Box from "@mui/material/Box/Box";
-import Typography from "@mui/material/Typography/Typography";
-import Card from "@mui/material/Card/Card";
-import { CardActionArea, CardHeader, CardMedia, IconButton, Tooltip } from "@mui/material";
-import Grid from "@mui/material/Grid/Grid";
+import {
+  CardActionArea,
+  CardHeader,
+  CardMedia,
+  IconButton,
+  Tooltip,
+  Box,
+  Typography,
+  Card,
+  Grid,
+} from "@mui/material";
 import { Link } from "react-router-dom";
 import CloseIcon from "@mui/icons-material/Close";
 import RefreshIcon from "@mui/icons-material/Refresh";
